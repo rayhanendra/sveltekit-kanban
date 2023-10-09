@@ -1,18 +1,71 @@
-<script>
+<script lang="ts">
 	import { draggable, dropzone } from '$lib/dnd';
-	export let data;
+	import { superForm } from 'sveltekit-superforms/client';
+	import Dialog from '../components/atoms/Dialog.svelte';
+	import type { PageData } from './$types';
+	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
+	import { z } from 'zod';
+
+	export let data: PageData;
+
+	// Note: this is a watcher example, so it will run every time the data changes
+	$: data, console.log('yes');
+
+	let dialog: HTMLDialogElement;
+
+	const validationSchema = z.object({
+		title: z.string().min(5, 'Title must be atleast 5 characters').max(50)
+	});
+
+	const { form, errors, enhance } = superForm(data.form, {
+		resetForm: true,
+		validators: validationSchema
+	});
 </script>
 
+<SuperDebug data={$form} />
+
+<Dialog bind:dialog>
+	<form method="POST" use:enhance>
+		<div class="tw-flex tw-flex-col">
+			<label for="title">Title</label>
+			<input
+				type="text"
+				id="title"
+				name="title"
+				bind:value={$form.title}
+				aria-invalid={$errors.title ? 'true' : undefined}
+			/>
+			{#if $errors.title}<span class="tw-text-red-500">{$errors.title}</span>{/if}
+		</div>
+		<button type="submit">Submit</button>
+	</form>
+</Dialog>
+
 <div class="tw-p-4 tw-w-full tw-bg-blue-950 tw-text-white">Svelte Kanban</div>
+<div class="tw-p-6 tw-w-full tw-max-w-screen-xl">
+	<div
+		class="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-bg-slate-800 tw-text-white tw-px-2 tw-py-2 tw-float-right tw-rounded"
+	>
+		Add card
+
+		<button
+			class="tw-px-4 tw-py-2 tw-bg-slate-700 tw-text-white tw-rounded-md"
+			on:click={() => dialog.showModal()}
+		>
+			+
+		</button>
+	</div>
+</div>
 <ul
 	class="tw-list-none tw-m-0 tw-p-6 tw-flex tw-flex-col sm:tw-flex-row tw-gap-2 tw-w-full tw-max-w-screen-xl"
 >
-	{#each data.columns as column}
-		{@const cards = data.cards.filter((card) => card.column === column.id)}
+	{#each data.kanban.columns as column}
+		{@const cards = data.kanban.cards.filter((card) => card.column === column.id)}
 		<li
 			use:dropzone={{
 				on_dropzone(card_id) {
-					const card = data.cards.find((card) => card.id === card_id);
+					const card = data.kanban.cards.find((card) => card.id === card_id);
 					if (card) {
 						card.column = column.id;
 						data = data;
