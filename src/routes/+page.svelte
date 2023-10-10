@@ -35,26 +35,7 @@
 	};
 </script>
 
-<SuperDebug data={$form} />
-
-<Dialog bind:dialog>
-	<form method="POST" use:enhance action="?/create">
-		<div class="tw-flex tw-flex-col">
-			<label for="title">Title</label>
-			<input
-				type="text"
-				id="title"
-				name="title"
-				bind:value={$form.title}
-				aria-invalid={$errors.title ? 'true' : undefined}
-			/>
-			{#if $errors.title}<span class="tw-text-red-500">{$errors.title}</span>{/if}
-		</div>
-		<button type="submit">Submit</button>
-	</form>
-</Dialog>
-
-<div class="tw-p-4 tw-w-full tw-bg-blue-950 tw-text-white">Svelte Kanban</div>
+<div class="tw-p-4 tw-w-full tw-bg-slate-800 tw-text-white">Svelte Kanban</div>
 <div class="tw-p-6 tw-w-full tw-max-w-screen-xl">
 	<div
 		class="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-bg-slate-800 tw-text-white tw-px-2 tw-py-2 tw-float-right tw-rounded"
@@ -107,6 +88,38 @@
 		</li>
 	{/each}
 </ul>
+<Dialog bind:dialog>
+	<form method="POST" use:enhance action="?/create">
+		<div class="tw-flex tw-flex-col tw-p-3">
+			<label
+				for="title"
+				class="
+				tw-text-white
+				tw-text-sm
+				tw-font-bold
+				tw-mb-2
+			">Title</label
+			>
+			<input
+				type="text"
+				id="title"
+				name="title"
+				bind:value={$form.title}
+				aria-invalid={$errors.title ? 'true' : undefined}
+				class="tw-rounded tw-outline-none tw-border-none tw-px-2 tw-py-1"
+			/>
+			{#if $errors.title}<span class="tw-text-red-500">{$errors.title}</span>{/if}
+		</div>
+		<div class="tw-p-3">
+			<button type="submit" class="tw-rounded tw-bg-[#4fd1c5] tw-text-white tw-px-2 tw-py-1"
+				>Submit</button
+			>
+		</div>
+	</form>
+</Dialog>
+<div class="tw-p-5">
+	<SuperDebug data={$form} />
+</div>
 
 <style>
 	:global(.droppable) {

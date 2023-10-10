@@ -11,9 +11,9 @@
 	on:close
 	class="tw-relative tw-w-full tw-max-w-[400px] tw-h-3/5 tw-bg-slate-800 tw-shadow-xl tw-rounded-md tw-px-1"
 >
-	<div class="tw-flex tw-items-center tw-justify-end">
+	<div class="tw-flex tw-items-center tw-justify-end tw-p-3">
 		<button
-			class="tw-m-2 tw-px-2 tw-bg-red-500 tw-text-white tw-rounded-md tw-text-xl
+			class="tw-px-2 tw-bg-red-500 tw-text-white tw-rounded-md tw-text-xl
         "
 			on:click={handleClose}
 		>
