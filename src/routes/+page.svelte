@@ -35,7 +35,7 @@
 	};
 </script>
 
-<div class="tw-p-4 tw-w-full tw-bg-slate-800 tw-text-white">Svelte Kanban</div>
+<div class="tw-p-4 tw-w-full tw-bg-slate-800 tw-text-white">SvelteKit Kanban</div>
 <div class="tw-p-6 tw-w-full tw-max-w-screen-xl">
 	<div
 		class="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-bg-slate-800 tw-text-white tw-px-2 tw-py-2 tw-float-right tw-rounded"
@@ -60,10 +60,9 @@
 				on_dropzone(card_id) {
 					const card = data.kanban.cards.find((card) => card.id == Number(card_id));
 					if (card) {
-						console.log('card', card);
+						// console.log('card', card);
 						card.column_id = column.id;
 						data = data;
-						console.log('ini handle', handleOnDropzone);
 						handleOnDropzone(card.id, column.id);
 					}
 				}
