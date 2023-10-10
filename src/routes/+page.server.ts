@@ -2,34 +2,47 @@ import { z } from 'zod';
 import { superValidate } from 'sveltekit-superforms/server';
 import { fail } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
+import { supabase } from '$lib/supabaseClient';
 
-const kanban = {
-	columns: [
-		{
-			id: 1,
-			label: '📫 Todo'
-		},
-		{
-			id: 2,
-			label: '✅ In Progress'
-		},
-		{
-			id: 3,
-			label: 'Done'
-		}
-	],
-	cards: [
-		{
-			column: 1,
-			id: 'a',
-			title: 'Get groceries'
-		},
-		{
-			column: 2,
-			id: 'b',
-			title: 'Walk the dog'
-		}
-	]
+// const kanban = {
+// columns: [
+// 	{
+// 		id: 1,
+// 		label: '📫 Todo'
+// 	},
+// 	{
+// 		id: 2,
+// 		label: '✅ In Progress'
+// 	},
+// 	{
+// 		id: 3,
+// 		label: 'Done'
+// 	}
+// ],
+// cards: [
+// 	{
+// 		column: 1,
+// 		id: 'a',
+// 		title: 'Get groceries'
+// 	},
+// 	{
+// 		column: 2,
+// 		id: 'b',
+// 		title: 'Walk the dog'
+// 	}
+// ]
+// };
+
+type Kanban = {
+	columns: {
+		id: number;
+		label: string;
+	}[];
+	cards: {
+		id: number;
+		column_id: number;
+		title: string;
+	}[];
 };
 
 const validationSchema = z.object({
@@ -37,7 +50,7 @@ const validationSchema = z.object({
 });
 
 export const actions: Actions = {
-	default: async ({ request }) => {
+	create: async ({ request }) => {
 		const form = await superValidate(request, validationSchema);
 
 		if (!form.valid) {
@@ -47,12 +60,17 @@ export const actions: Actions = {
 		// Note: validation can also be done here, but it's better to do it in the form. This is just an example.
 
 		const newCard = {
-			column: kanban.columns[0].id,
-			id: Date.now().toString(),
+			column_id: 1,
 			title: form.data.title
 		};
 
-		kanban.cards.push(newCard);
+		const { data: cards, error } = await supabase.from('kanban_cards').insert(newCard).select();
+
+		if (error) {
+			return fail(500, { error });
+		}
+
+		console.log('supabase cards', cards);
 
 		return {
 			// Note: You can return anything here, but it's best to return the form so the client can update the form state
@@ -62,8 +80,17 @@ export const actions: Actions = {
 };
 
 export const load: PageServerLoad = async () => {
+	const { data: columns } = await supabase.from('kanban_columns').select();
+	// console.log('supabase columns', columns);
+	const { data: cards } = await supabase.from('kanban_cards').select();
+	// console.log('supabase cards', cards);
 	// Note: Validate the input
 	const form = await superValidate(validationSchema);
+
+	const kanban: Kanban = {
+		columns: columns ?? [],
+		cards: cards ?? []
+	};
 
 	return {
 		form,

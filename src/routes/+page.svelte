@@ -9,7 +9,7 @@
 	export let data: PageData;
 
 	// Note: this is a watcher example, so it will run every time the data changes
-	$: data, console.log('yes');
+	// $: data, console.log('yes');
 
 	let dialog: HTMLDialogElement;
 
@@ -21,12 +21,24 @@
 		resetForm: true,
 		validators: validationSchema
 	});
+
+	const handleOnDropzone = async (cardId: any, columnId: any) => {
+		try {
+			await fetch('/api/update', {
+				method: 'PUT',
+				body: JSON.stringify({ cardId, columnId }),
+				headers: {
+					'content-type': 'application/json'
+				}
+			});
+		} catch (e) {}
+	};
 </script>
 
 <SuperDebug data={$form} />
 
 <Dialog bind:dialog>
-	<form method="POST" use:enhance>
+	<form method="POST" use:enhance action="?/create">
 		<div class="tw-flex tw-flex-col">
 			<label for="title">Title</label>
 			<input
@@ -61,14 +73,17 @@
 	class="tw-list-none tw-m-0 tw-p-6 tw-flex tw-flex-col sm:tw-flex-row tw-gap-2 tw-w-full tw-max-w-screen-xl"
 >
 	{#each data.kanban.columns as column}
-		{@const cards = data.kanban.cards.filter((card) => card.column === column.id)}
+		{@const cards = data.kanban.cards.filter((card) => card.column_id === column.id)}
 		<li
 			use:dropzone={{
 				on_dropzone(card_id) {
-					const card = data.kanban.cards.find((card) => card.id === card_id);
+					const card = data.kanban.cards.find((card) => card.id == Number(card_id));
 					if (card) {
-						card.column = column.id;
+						console.log('card', card);
+						card.column_id = column.id;
 						data = data;
+						console.log('ini handle', handleOnDropzone);
+						handleOnDropzone(card.id, column.id);
 					}
 				}
 			}}
