@@ -35,24 +35,22 @@
 	};
 </script>
 
-<div class="tw-p-4 tw-w-full tw-bg-slate-800 tw-text-white">SvelteKit Kanban</div>
-<div class="tw-p-6 tw-w-full tw-max-w-screen-xl">
+<div class="p-4 w-full bg-slate-800 text-white">SvelteKit Kanban</div>
+<div class="p-6 w-full max-w-screen-xl">
 	<div
-		class="tw-flex tw-items-center tw-justify-between tw-gap-3 tw-bg-slate-800 tw-text-white tw-px-2 tw-py-2 tw-float-right tw-rounded"
+		class="flex items-center justify-between gap-3 bg-slate-800 text-white px-2 py-2 float-right rounded"
 	>
 		Add card
 
 		<button
-			class="tw-px-4 tw-py-2 tw-bg-slate-700 tw-text-white tw-rounded-md"
+			class="px-4 py-2 bg-slate-700 text-white rounded-md"
 			on:click={() => dialog.showModal()}
 		>
 			+
 		</button>
 	</div>
 </div>
-<ul
-	class="tw-list-none tw-m-0 tw-p-6 tw-flex tw-flex-col sm:tw-flex-row tw-gap-2 tw-w-full tw-max-w-screen-xl"
->
+<ul class="list-none m-0 p-6 flex flex-col sm:flex-row gap-2 w-full max-w-screen-xl">
 	{#each data.kanban.columns as column}
 		{@const cards = data.kanban.cards.filter((card) => card.column_id === column.id)}
 		<li
@@ -67,15 +65,15 @@
 					}
 				}
 			}}
-			class="tw-flex-1 tw-p-4 tw-bg-slate-800 tw-text-gray-100 tw-rounded"
+			class="flex-1 p-4 bg-slate-800 text-gray-100 rounded"
 		>
-			<h2 class="tw-mb-4">{column.label}</h2>
+			<h2 class="mb-4">{column.label}</h2>
 			{#if cards.length > 0}
-				<ul class="tw-flex tw-flex-col tw-gap-2">
+				<ul class="flex flex-col gap-2">
 					{#each cards as card}
 						<li
 							use:draggable={card.id}
-							class="tw-flex-1 tw-p-4 tw-bg-slate-700 tw-text-gray-100 tw-rounded tw-border tw-border-slate-600"
+							class="flex-1 p-4 bg-slate-700 text-gray-100 rounded border border-slate-600"
 						>
 							{card.title}
 						</li>
@@ -89,14 +87,14 @@
 </ul>
 <Dialog bind:dialog>
 	<form method="POST" use:enhance action="?/create">
-		<div class="tw-flex tw-flex-col tw-p-3">
+		<div class="flex flex-col p-3">
 			<label
 				for="title"
 				class="
-				tw-text-white
-				tw-text-sm
-				tw-font-bold
-				tw-mb-2
+				text-white
+				text-sm
+				font-bold
+				mb-2
 			">Title</label
 			>
 			<input
@@ -105,18 +103,16 @@
 				name="title"
 				bind:value={$form.title}
 				aria-invalid={$errors.title ? 'true' : undefined}
-				class="tw-rounded tw-outline-none tw-border-none tw-px-2 tw-py-1"
+				class="rounded outline-none border-none px-2 py-1"
 			/>
-			{#if $errors.title}<span class="tw-text-red-500">{$errors.title}</span>{/if}
+			{#if $errors.title}<span class="text-red-500">{$errors.title}</span>{/if}
 		</div>
-		<div class="tw-p-3">
-			<button type="submit" class="tw-rounded tw-bg-[#4fd1c5] tw-text-white tw-px-2 tw-py-1"
-				>Submit</button
-			>
+		<div class="p-3">
+			<button type="submit" class="rounded bg-[#4fd1c5] text-white px-2 py-1">Submit</button>
 		</div>
 	</form>
 </Dialog>
-<div class="tw-p-5">
+<div class="p-5">
 	<SuperDebug data={$form} />
 </div>
 
