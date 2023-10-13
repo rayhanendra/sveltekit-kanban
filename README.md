@@ -36,3 +36,13 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Committing
+
+This project uses [commitizen](https://commitizen-tools.github.io/commitizen/)
+
+```bash
+git cz
+or
+cz
+```
