@@ -5,6 +5,7 @@
 	import type { PageData } from './$types';
 	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	import { z } from 'zod';
+	import NavigationBar from '../components/atoms/NavigationBar.svelte';
 
 	export let data: PageData;
 
@@ -35,7 +36,7 @@
 	};
 </script>
 
-<div class="p-4 w-full bg-slate-800 text-white">SvelteKit Kanban</div>
+<NavigationBar />
 <div class="p-6 w-full max-w-screen-xl">
 	<div
 		class="flex items-center justify-between gap-3 bg-slate-800 text-white px-2 py-2 float-right rounded"

@@ -10,6 +10,7 @@
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { fade } from 'svelte/transition';
 	import { momSchema } from '$lib/schemas';
+	import NavigationBar from '../../components/atoms/NavigationBar.svelte';
 
 	// Libraries
 	// Components
@@ -103,6 +104,7 @@
 	</div>
 {/if}
 
+<NavigationBar />
 <div class="card-container">
 	<div class="card">
 		<header class="card-header">Mom Information</header>
@@ -123,7 +125,7 @@
 						{/if}</span
 					>
 				</label>
-				<div class="grid grid-cols-2 gap-4">
+				<div class="grid sm:grid-cols-2 gap-4">
 					<label class="label">
 						<span>First Name</span>
 						<input class="input" type="text" name="firstName" bind:value={$form.firstName} />
