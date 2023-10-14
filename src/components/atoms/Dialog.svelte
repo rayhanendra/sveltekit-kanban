@@ -9,11 +9,11 @@
 <dialog
 	bind:this={dialog}
 	on:close
-	class="tw-relative tw-w-full tw-max-w-[400px] tw-h-3/5 tw-bg-slate-800 tw-shadow-xl tw-rounded-md tw-px-1"
+	class="relative w-full max-w-[400px] h-3/5 bg-slate-800 shadow-xl rounded-md px-1"
 >
-	<div class="tw-flex tw-items-center tw-justify-end tw-p-3">
+	<div class="flex items-center justify-end p-3">
 		<button
-			class="tw-px-2 tw-bg-red-500 tw-text-white tw-rounded-md tw-text-xl
+			class="btn-icon btn-icon-sm variant-filled-error
         "
 			on:click={handleClose}
 		>

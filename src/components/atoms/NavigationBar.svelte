@@ -12,7 +12,7 @@
 </script>
 
 <nav class="p-4 w-full bg-slate-800 text-white flex justify-between">
-	<div class="">SvelteKit Kanban</div>
+	<div class="flex items-center">SvelteKit Kanban</div>
 
 	<div class="flex gap-3">
 		{#each navigations as navigation}

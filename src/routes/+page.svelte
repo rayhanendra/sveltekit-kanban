@@ -89,27 +89,22 @@
 <Dialog bind:dialog>
 	<form method="POST" use:enhance action="?/create">
 		<div class="flex flex-col p-3">
-			<label
-				for="title"
-				class="
-				text-white
-				text-sm
-				font-bold
-				mb-2
-			">Title</label
-			>
-			<input
-				type="text"
-				id="title"
-				name="title"
-				bind:value={$form.title}
-				aria-invalid={$errors.title ? 'true' : undefined}
-				class="rounded outline-none border-none px-2 py-1"
-			/>
-			{#if $errors.title}<span class="text-red-500">{$errors.title}</span>{/if}
+			<label for="title" class="label">
+				<span>Title</span>
+				<input
+					type="text"
+					id="title"
+					name="title"
+					bind:value={$form.title}
+					aria-invalid={$errors.title ? 'true' : undefined}
+					class="input"
+				/>
+				{#if $errors.title}<span class="input-helper">{$errors.title}</span>{/if}
+			</label>
 		</div>
 		<div class="p-3">
-			<button type="submit" class="rounded bg-[#4fd1c5] text-white px-2 py-1">Submit</button>
+			<button type="submit" class="btn variant-ghost-primary text-primary-400 w-full">Submit</button
+			>
 		</div>
 	</form>
 </Dialog>
@@ -125,5 +120,22 @@
 
 	:global(.droppable) * {
 		pointer-events: none;
+	}
+
+	.label {
+		height: 90px;
+		width: 100%;
+		color: white;
+	}
+	.input {
+		border-radius: 8px;
+		padding-left: 20px;
+		padding-right: 20px;
+		height: 50%;
+		width: 100%;
+	}
+	.input-helper {
+		font-size: 14px;
+		@apply text-error-600;
 	}
 </style>
